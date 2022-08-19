@@ -116,6 +116,6 @@ const setPermission = function(userId, userRoles){
         });
 }
 
-console.log("Starting, will try and add role:", role_to_use, "against CouchDB instance at:", couch_url)
+console.log("\nStarting, will try and add role:", role_to_use, "against CouchDB instance at:", couch_url,"\n")
 getAllUsers()
     .then((allUsers) => getUserPerms(allUsers));
