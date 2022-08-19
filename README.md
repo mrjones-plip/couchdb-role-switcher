@@ -32,4 +32,6 @@ set success: tom
 
 ```
 
-**NB** - first user returned should be `_design/_auth` and is always skipped.
+## Notes
+* First user returned should be `_design/_auth` and [is always skipped](https://github.com/mrjones-plip/couchdb-role-switcher/blob/main/index.js#L44).
+* If you're hitting CouchDB through a proxy and updating a lot users (>500), you should try and bypass the proxy to talk to DB directly. In testing, I saw errors like  `Client network socket disconnected before secure TLS connection was established`. 
