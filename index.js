@@ -107,7 +107,7 @@ const setPermission = function(userId, userRoles){
 
     return request.put(options)
         .then(() => {
-            console.log('set success:', userId);
+            console.log('set success:', userRoles.name);
         })
         .catch(e => {
             console.log('set FAIL:', userId, 'for roles:', userRoles, ' at URL ', compiledUrl.href);

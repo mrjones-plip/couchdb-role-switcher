@@ -23,9 +23,11 @@ and a password of `password`. Port is implicit as `443`:
 ```shell
 ROLE=foo COUCH_URL=https://admin:password@192-168-68-26.my.local-ip.co node .
 
-set success: org.couchdb.user:josh
-set success: org.couchdb.user:tom
-set success: org.couchdb.user:abdul
+set success: josh
+set success: abdul
+set success: ting
+set success: tom
+
 ```
 
 **NB** - first user returned should be `_design/_auth` and is always skipped.
