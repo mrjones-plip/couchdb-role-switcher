@@ -8,7 +8,7 @@ A simple Node script which accepts a new role and adds it every user in a CouchD
 
 ## Install
 
-Rune `npm ci` before using
+Run `npm ci` before using
 
 ## Use
 
