@@ -21,7 +21,7 @@ Here's an example call adding the role `foo` on a URL of `192-168-68-26.my.local
 and a password of `password`. Port is implicit as `443`:
 
 ```shell
-PERM=foo COUCH_URL=https://admin:password@192-168-68-26.my.local-ip.co node .
+ROLE=foo COUCH_URL=https://admin:password@192-168-68-26.my.local-ip.co node .
 
 set success: org.couchdb.user:josh
 set success: org.couchdb.user:tom
