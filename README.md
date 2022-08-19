@@ -1,6 +1,8 @@
 # CouchD Role Switcher
 A simple Node script which accepts a new role and adds it every user in a CouchDB instance. 
 
+https://user-images.githubusercontent.com/8253488/185659042-4532b767-c96e-4dd8-848a-974ef6cbd67c.mp4
+
 ## Requirements
 
 * Node 12 LTS or later
