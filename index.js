@@ -42,6 +42,7 @@ const getAllUsers = function (){
             if (typeof users.rows === 'object' && users.rows.length > 0){
                 // first user is always admin user, let's not mess with them
                 users.rows.shift();
+                console.log("Found",users.rows.length,"total users.");
                 return users.rows;
             } else {
                 console.log('No users found');
@@ -56,6 +57,7 @@ const getAllUsers = function (){
 const getUserPerms = function (allUsers){
     allUsers.forEach((username)=>{
         const userId = username.id;
+        const usernameAry = userId.split(':');
         try {
             compiledUrl = new URL('/_users/' + userId, couch_url);
         } catch(e) {
@@ -73,7 +75,6 @@ const getUserPerms = function (allUsers){
                 if (typeof userData.roles === 'object'){
                     if (!userData.roles.includes(role_to_use)){
                         userData.roles.push(role_to_use);
-                        const usernameAry = userId.split(':');
                         setPermission(userId, {
                                 'roles': userData.roles,
                                 '_rev': userData._rev,
@@ -114,5 +115,7 @@ const setPermission = function(userId, userRoles){
             handleError(e);
         });
 }
+
+console.log("Starting, will try and add role:", role_to_use, "against CouchDB instance at:", couch_url)
 getAllUsers()
     .then((allUsers) => getUserPerms(allUsers));
