@@ -1,12 +1,12 @@
 'use strict';
 const request = require('request-promise-native');
 
-const perm_to_use = process.env.PERM;
+const role_to_use = process.env.ROLE;
 const couch_url = process.env.COUCH_URL;
 let compiledUrl = {};
 
-if(perm_to_use === undefined){
-    console.log('PERM is not set, please set it and try again');
+if(role_to_use === undefined){
+    console.log('ROLE is not set, please set it and try again');
     process.exit(1);
 }
 if(couch_url === undefined){
@@ -71,8 +71,8 @@ const getUserPerms = function (allUsers){
         return request.get(options)
             .then(userData => {
                 if (typeof userData.roles === 'object'){
-                    if (!userData.roles.includes(perm_to_use)){
-                        userData.roles.push(perm_to_use);
+                    if (!userData.roles.includes(role_to_use)){
+                        userData.roles.push(role_to_use);
                         const usernameAry = userId.split(':');
                         setPermission(userId, {
                                 'roles': userData.roles,
