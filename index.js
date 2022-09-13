@@ -1,4 +1,3 @@
-'use strict';
 const request = require('request-promise-native');
 
 const role_to_use = process.env.ROLE;
