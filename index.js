@@ -29,6 +29,7 @@ const filterOutAdmins = (users) => {
     if (typeof users.rows === 'object' && users.rows.length > 1){
         // first user is always admin user, let's not mess with them
         users.rows.shift();
+        users.rows.shift();
         console.log(`Found ${users.rows.length} total users.`);
         return users.rows;
     }
@@ -39,10 +40,10 @@ const getUpdatedUsers = async (allUsers) => {
     const updates = [];
     for (const user of allUsers) {
         const uri = compileUrl('/_users/' + user.id);
-        const user = await request.get({ uri, json: true });
-        if (typeof user.roles === 'object' && !user.roles.includes(role_to_use)) {
-            user.roles.push(role_to_use);
-            updates.push(users);
+        const newuser = await request.get({ uri, json: true });
+        if (typeof newuser.roles === 'object' && !newuser.roles.includes(role_to_use)) {
+            newuser.roles.push(role_to_use);
+            updates.push(newuser);
         }
     }
     return updates;
@@ -52,7 +53,13 @@ const saveUsers = async (users) => {
     for (const user of users) {
         const userId = user._id.split(':')[1];
         const uri = compileUrl('/_users/' + userId);
-        await request.put({ uri, json: true, body: user });
+        const body = {
+            'roles': user.roles,
+            '_rev': user._rev,
+            'type': "user",
+            'name': userId,
+        };
+        await request.put({ uri, json: true, body: body });
     }
 }
 
@@ -64,9 +71,9 @@ const go = async () => {
         await saveUsers(updatedUsers);
     } catch (e) {
         if (e.statusCode === 401) {
-            console.log('Bad authentication for CouchDB. Check that COUCH_URL has correct usernames and passwords.');
+            console.log('Bad authentication for CouchDB. Check that COUCH_URL has correct username and password.');
         } else {
-            console.log('Error connecting to CouchDB: ' + e.message);
+            console.log("\nError!: " + e.message + "\n\nSee stack trace below for details.\n\n" + e.stack);
         }
     }
 };
