@@ -29,8 +29,7 @@ const filterOutAdmins = (users) => {
     if (typeof users.rows === 'object' && users.rows.length > 1){
         // first user is always admin user, let's not mess with them
         users.rows.shift();
-        users.rows.shift();
-        console.log(`Found ${users.rows.length} total users.`);
+        console.log(`${users.rows.length} total users found.`);
         return users.rows;
     }
     return [];
@@ -52,18 +51,14 @@ const getUpdatedUsers = async (allUsers) => {
 const saveUsers = async (users) => {
     for (const user of users) {
         const userId = user._id.split(':')[1];
-        const uri = compileUrl('/_users/' + userId);
-        const body = {
-            'roles': user.roles,
-            '_rev': user._rev,
-            'type': "user",
-            'name': userId,
-        };
-        await request.put({ uri, json: true, body: body });
+        const uri = compileUrl('/_users/' + user._id);
+        await request.put({ uri, json: true, body: user });
     }
+    console.log(`${users.length} needed the permission added.`);
 }
 
 const go = async () => {
+    console.log("\nStart\n");
     try {
         const allUsers = await getAllUsers();
         const nonAdmins = await filterOutAdmins(allUsers);
@@ -73,9 +68,14 @@ const go = async () => {
         if (e.statusCode === 401) {
             console.log('Bad authentication for CouchDB. Check that COUCH_URL has correct username and password.');
         } else {
-            console.log("\nError!: " + e.message + "\n\nSee stack trace below for details.\n\n" + e.stack);
+            console.log("Error! " + e.message);
+            console.log("\nPass DEBUG=True to see stack trace");
+            if (process.env.DEBUG === "True"){
+                console.log("\n" + e.stack);
+            }
         }
     }
+    console.log("\nEnd\n");
 };
 
 go();
